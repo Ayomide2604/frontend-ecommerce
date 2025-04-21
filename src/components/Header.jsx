@@ -9,12 +9,12 @@ const Header = () => {
 
 	return (
 		<>
-			<header className="header_section">
+			<header className="header_section p-3">
 				<div className="container">
 					<nav className="navbar navbar-expand-lg custom_nav-container ">
-						<a className="navbar-brand" href="index.html">
+						<Link className="navbar-brand" to="/">
 							<img width={250} src="img/logo.png" alt="#" />
-						</a>
+						</Link>
 						<button
 							className="navbar-toggler"
 							type="button"
@@ -80,7 +80,10 @@ const Header = () => {
 									</Link>
 								</li>
 								<li onClick={() => setMenuOpen(!menuOpen)}>
-									<Link className="nav-link" to="/cart">
+									<Link
+										className="nav-link d-flex align-self-center"
+										to="/cart"
+									>
 										<FaShoppingCart />
 									</Link>
 								</li>
