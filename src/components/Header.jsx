@@ -79,6 +79,28 @@ const Header = () => {
 										Contact
 									</Link>
 								</li>
+								<li
+									onClick={() => setMenuOpen(!menuOpen)}
+									className={
+										currentPath === "/login" ? "nav-item active" : " nav-item"
+									}
+								>
+									<Link className="nav-link" to="/login">
+										Login
+									</Link>
+								</li>
+								<li
+									onClick={() => setMenuOpen(!menuOpen)}
+									className={
+										currentPath === "/register"
+											? "nav-item active"
+											: " nav-item"
+									}
+								>
+									<Link className="nav-link" to="/register">
+										Register
+									</Link>
+								</li>
 								<li onClick={() => setMenuOpen(!menuOpen)}>
 									<Link
 										className="nav-link d-flex align-self-center"
