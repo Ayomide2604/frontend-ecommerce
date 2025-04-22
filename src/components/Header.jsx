@@ -10,7 +10,15 @@ const Header = () => {
 
 	return (
 		<>
-			<header className="header_section p-3">
+			<header
+				className="header_section p-3"
+				style={{
+					position: "sticky",
+					top: 0,
+					zIndex: 1000,
+					backgroundColor: "white",
+				}}
+			>
 				<div className="container">
 					<nav className="navbar navbar-expand-lg custom_nav-container ">
 						<Link className="navbar-brand" to="/">
