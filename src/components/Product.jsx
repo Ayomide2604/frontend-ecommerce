@@ -1,12 +1,17 @@
-const Product = ({ title, price, image }) => {
+import { Link } from "react-router-dom";
+
+const Product = ({ id, title, price, image }) => {
 	return (
 		<div className="col-sm-6 col-md-4 col-lg-4">
 			<div className="box">
 				<div className="option_container">
 					<div className="options">
-						<a href="" className="option1">
+						<Link
+							to={`/products/${id}`}
+							className="text-decoration-none text-reset  option1"
+						>
 							{title}
-						</a>
+						</Link>
 						<a href="" className="option2">
 							Buy Now
 						</a>

@@ -1,6 +1,8 @@
 import Product from "./Product";
-import products from "../data/products";
+import productsJson from "../data/products";
+
 const ProductList = () => {
+	const products = productsJson;
 	return (
 		<section className="product_section layout_padding">
 			<div className="container">
@@ -13,6 +15,7 @@ const ProductList = () => {
 					{products.map((product) => (
 						<Product
 							key={product.id}
+							id={product.id}
 							title={product.title}
 							price={product.price}
 							image={product.image}

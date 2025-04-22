@@ -13,7 +13,7 @@ const Header = () => {
 				<div className="container">
 					<nav className="navbar navbar-expand-lg custom_nav-container ">
 						<Link className="navbar-brand" to="/">
-							<img width={250} src="img/logo.png" alt="#" />
+							<img width={250} src="/img/logo.png" alt="#" />
 						</Link>
 						<button
 							className="navbar-toggler"
