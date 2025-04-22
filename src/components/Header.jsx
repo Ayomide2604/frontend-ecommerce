@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
+import Logo from "../assets/img/logo.png";
 
 const Header = () => {
 	const location = useLocation();
@@ -13,7 +14,7 @@ const Header = () => {
 				<div className="container">
 					<nav className="navbar navbar-expand-lg custom_nav-container ">
 						<Link className="navbar-brand" to="/">
-							<img width={250} src="/img/logo.png" alt="#" />
+							<img width={250} src={Logo} alt="#" />
 						</Link>
 						<button
 							className="navbar-toggler"

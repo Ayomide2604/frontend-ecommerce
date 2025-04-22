@@ -1,3 +1,5 @@
+import Logo from "../assets/img/logo.png";
+
 const Footer = () => {
 	return (
 		<>
@@ -8,7 +10,7 @@ const Footer = () => {
 							<div className="full">
 								<div className="logo_footer">
 									<a href="#">
-										<img width="210" src="img/logo.png" alt="#" />
+										<img width="210" src={Logo} alt="#" />
 									</a>
 								</div>
 								<div className="information_f">
