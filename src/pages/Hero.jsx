@@ -45,7 +45,7 @@ const Hero = () => {
 											</h1>
 											<p>{slide.title}</p>
 											<div className="btn-box">
-												<a href="" className="btn1">
+												<a href="" className="btn1 text-decoration-none">
 													Shop Now
 												</a>
 											</div>
