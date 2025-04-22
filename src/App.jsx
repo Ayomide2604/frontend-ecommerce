@@ -1,5 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import useScrollToTop from "./hooks/useScrollToTop";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomeScreen from "./screens/HomeScreen";
@@ -13,6 +14,7 @@ import Cart from "./pages/Cart";
 import CheckoutScreen from "./screens/CheckoutScreen";
 
 function App() {
+	useScrollToTop();
 	return (
 		<>
 			<Header />
