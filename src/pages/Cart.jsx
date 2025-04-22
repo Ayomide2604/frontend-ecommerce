@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Cart = () => {
 	return (
 		<>
@@ -195,12 +197,11 @@ const Cart = () => {
 									</div>
 									<div className="row">
 										<div className="col-md-12">
-											<button
-												className="btn btn-primary btn-lg btn-block"
-												onclick="window.location='checkout.html'"
-											>
-												Proceed To Checkout
-											</button>
+											<Link to="/checkout">
+												<button className="btn btn-primary btn-lg btn-block">
+													Proceed To Checkout
+												</button>
+											</Link>
 										</div>
 									</div>
 								</div>
