@@ -33,7 +33,7 @@ function App() {
 
 	return (
 		<>
-			{currentPath === "/account" ? <AccountHeader /> : <Header />}
+			{currentPath.startsWith("/account") ? <AccountHeader /> : <Header />}
 			<Routes>
 				<Route path="/" element={<HomeScreen />} />
 				<Route path="/about" element={<AboutScreen />} />

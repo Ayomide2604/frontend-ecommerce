@@ -4258,7 +4258,7 @@ h6 .badge {
 		left: 5px;
 		right: 0;
 	}
-	.navbar .dropdown-menu {
+	.navbar .dropdown- {
 		position: absolute;
 	}
 	.navbar .navbar-nav {
@@ -5739,7 +5739,6 @@ body.layout-3 .main-footer {
 	left: 35px;
 }
 .main-sidebar .sidebar-menu li ul.dropdown-menu li a:before {
-	content: "\f105";
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	font-size: 12px;
