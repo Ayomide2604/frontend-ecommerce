@@ -1,4 +1,6 @@
 import "./App.css";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import useScrollToTop from "./hooks/useScrollToTop";
 import Header from "./components/Header";
@@ -12,12 +14,26 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "../RegisterScreen";
 import Cart from "./pages/Cart";
 import CheckoutScreen from "./screens/CheckoutScreen";
+import AccountScreen from "./screens/AccountScreen";
+import AccountHeader from "./components/AccountHeader";
+import AccountFooter from "./components/AccountFooter";
 
 function App() {
+	const location = useLocation();
+	const currentPath = location.pathname;
 	useScrollToTop();
+
+	useEffect(() => {
+		if (currentPath.startsWith("/account")) {
+			import("./assets/css/style2.css");
+		} else {
+			null;
+		}
+	}, [currentPath]);
+
 	return (
 		<>
-			<Header />
+			{currentPath === "/account" ? <AccountHeader /> : <Header />}
 			<Routes>
 				<Route path="/" element={<HomeScreen />} />
 				<Route path="/about" element={<AboutScreen />} />
@@ -28,8 +44,9 @@ function App() {
 				<Route path="/register" element={<RegisterScreen />} />
 				<Route path="/cart" element={<Cart />} />
 				<Route path="/checkout" element={<CheckoutScreen />} />
+				<Route path="/account" element={<AccountScreen />} />
 			</Routes>
-			<Footer />
+			{currentPath.startsWith("/account") ? <AccountFooter /> : <Footer />}
 		</>
 	);
 }

@@ -1,17 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/img/logo.png";
+import api from "../utils/api";
+import Loader from "./Loader";
+import Alert from "./Alert";
+import useAuthStore from "../store/useAuthStore";
 
 const Header = () => {
+	const [collections, setCollections] = useState([]);
+	const { token, user, logout } = useAuthStore();
+	const [menuOpen, setMenuOpen] = useState(false);
+	const [collectionMenuOpen, setCollectionMenuOpen] = useState(false);
+	const [accountMenuOpen, setAccountMenuOpen] = useState(false);
 	const location = useLocation();
 	const currentPath = location.pathname;
-	const [menuOpen, setMenuOpen] = useState(false);
+
+	useEffect(() => {
+		const fetchCollections = async () => {
+			try {
+				const response = await api.get("/collections");
+				setCollections(response.data);
+			} catch (err) {
+				console.error(
+					err.response || "Error Fetching Collections from database"
+				);
+			}
+		};
+
+		fetchCollections();
+	}, []);
 
 	return (
 		<>
 			<header
-				className="header_section p-3"
+				className="header_section p-3 "
 				style={{
 					position: "sticky",
 					top: 0,
@@ -66,6 +89,33 @@ const Header = () => {
 								</li>
 
 								<li
+									className="nav-item dropdown"
+									onMouseLeave={() => setCollectionMenuOpen(false)}
+								>
+									<a
+										className="nav-link dropdown-toggle"
+										href="#"
+										onClick={(e) => {
+											e.preventDefault();
+											setCollectionMenuOpen((prev) => !prev);
+										}}
+									>
+										Collections <span className="caret"></span>
+									</a>
+									<ul
+										className={`dropdown-menu ${
+											collectionMenuOpen ? "show" : ""
+										}`}
+									>
+										{collections.map((collection) => (
+											<li key={collection._id}>
+												<a href={`${collection.title}`}>{collection.title}</a>
+											</li>
+										))}
+									</ul>
+								</li>
+
+								<li
 									onClick={() => setMenuOpen(!menuOpen)}
 									className={
 										currentPath === "/products"
@@ -88,28 +138,66 @@ const Header = () => {
 										Contact
 									</Link>
 								</li>
-								<li
-									onClick={() => setMenuOpen(!menuOpen)}
-									className={
-										currentPath === "/login" ? "nav-item active" : " nav-item"
-									}
-								>
-									<Link className="nav-link" to="/login">
-										Login
-									</Link>
-								</li>
-								<li
-									onClick={() => setMenuOpen(!menuOpen)}
-									className={
-										currentPath === "/register"
-											? "nav-item active"
-											: " nav-item"
-									}
-								>
-									<Link className="nav-link" to="/register">
-										Register
-									</Link>
-								</li>
+
+								{token ? (
+									<>
+										<li
+											className="nav-item dropdown"
+											onMouseLeave={() => setAccountMenuOpen(false)}
+										>
+											<a
+												className="nav-link dropdown-toggle"
+												href="#"
+												onClick={(e) => {
+													e.preventDefault();
+													setAccountMenuOpen((prev) => !prev);
+												}}
+											>
+												({user.username}) <span className="caret"></span>
+											</a>
+											<ul
+												className={`dropdown-menu ${
+													accountMenuOpen ? "show" : ""
+												}`}
+											>
+												<li>
+													<Link to="/account">Profile</Link>
+												</li>
+												<li>
+													<Link onClick={logout}>Logout</Link>
+												</li>
+											</ul>
+										</li>
+									</>
+								) : (
+									<>
+										<li
+											onClick={() => setMenuOpen(!menuOpen)}
+											className={
+												currentPath === "/login"
+													? "nav-item active"
+													: " nav-item"
+											}
+										>
+											<Link className="nav-link" to="/login">
+												Login
+											</Link>
+										</li>
+										<li
+											onClick={() => setMenuOpen(!menuOpen)}
+											className={
+												currentPath === "/register"
+													? "nav-item active"
+													: " nav-item"
+											}
+										>
+											<Link className="nav-link" to="/register">
+												Register
+											</Link>
+										</li>
+									</>
+								)}
+
 								<li onClick={() => setMenuOpen(!menuOpen)}>
 									<Link
 										className="nav-link d-flex align-self-center"

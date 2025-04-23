@@ -1,11 +1,34 @@
 import { useState, useEffect } from "react";
-import productJson from "../data/products";
 import { useParams } from "react-router-dom";
+import api from "./../utils/api";
+import Loader from "./Loader";
+import Alert from "./Alert";
 const ProductDetail = () => {
 	const { id } = useParams();
-	const product = productJson.find(
-		(product) => parseInt(product.id) === parseInt(id)
-	);
+	const [product, setProduct] = useState();
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+
+	useEffect(() => {
+		const fetchProductById = async (id) => {
+			try {
+				const response = await api.get(`/products/${id}`);
+				setProduct(response.data);
+				setLoading(true);
+			} catch (err) {
+				setError(err.response?.data?.message || "An error occurred");
+				setLoading(false);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchProductById(id);
+	}, [id]);
+
+	if (loading) return <Loader />;
+
+	if (error) return <Alert message={error} onClose={() => setError(null)} />;
 
 	return (
 		<div className="product_section layout_padding">
@@ -14,14 +37,16 @@ const ProductDetail = () => {
 					<div className="col-md-6">
 						<div className="item-entry">
 							<a href="#" className="product-item md-height bg-gray d-block">
-								<img src={product.image} alt="Image" className="img-fluid mb-5" />
+								<img src="/img/p3.png" alt="Image" className="img-fluid mb-5" />
 							</a>
 						</div>
 					</div>
 					<div className="col-md-6  ">
-						<h2 className="text-black">{product.title}</h2>
+						<h2 className="text-black">{product.name}</h2>
 
-						<p className="mb-4">{product.description}</p>
+						{product.description && (
+							<p className="mb-4">{product.description}</p>
+						)}
 						<p>
 							<strong className=" h4">${product.price}</strong>
 						</p>

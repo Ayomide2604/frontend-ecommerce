@@ -1,7 +1,34 @@
 import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../utils/api";
+import useAuthStore from "../store/useAuthStore";
 
 const LoginForm = () => {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
+	const navigate = useNavigate();
+	const { login } = useAuthStore();
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setError("");
+
+		try {
+			const response = await api.post("/auth/login", {
+				email,
+				password,
+			});
+			const { token, user } = response.data;
+			login(token, user);
+			navigate("/products");
+		} catch (err) {
+			setError("Invalid email or password");
+			console.error("Error logging in:", err);
+		}
+	};
 	return (
 		<section className="py-3 py-md-5 py-xl-8">
 			<div className="container">
@@ -19,7 +46,7 @@ const LoginForm = () => {
 					<div className="col-12 col-lg-10 col-xl-8">
 						<div className="row gy-5 justify-content-center">
 							<div className="col-12 col-lg-5">
-								<form action="#!">
+								<form onSubmit={handleSubmit}>
 									<div className="row gy-3 overflow-hidden">
 										<div className="col-12">
 											<div className="form-floating mb-3">
@@ -28,6 +55,8 @@ const LoginForm = () => {
 													className="form-control border-0 border-bottom rounded-0"
 													name="email"
 													id="email"
+													value={email}
+													onChange={(e) => setEmail(e.target.value)}
 													required
 												/>
 												<label htmlFor="email" className="form-label">
@@ -43,6 +72,8 @@ const LoginForm = () => {
 													name="password"
 													id="password"
 													placeholder="Password"
+													value={password}
+													onChange={(e) => setPassword(e.target.value)}
 													required
 												/>
 												<label htmlFor="password" className="form-label">

@@ -1,32 +1,49 @@
+import { useState, useEffect } from "react";
 import Product from "./Product";
-import productsJson from "../data/products";
-
+import api from "./../utils/api";
+import Loader from "./Loader";
+import Alert from "./Alert";
+import productsJson from "./../data/products";
 const ProductList = () => {
-	const products = productsJson;
+	const [products, setProducts] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+
+	useEffect(() => {
+		const fetchProducts = async () => {
+			try {
+				const response = await api.get("/products");
+				setProducts(response.data);
+				setLoading(true);
+			} catch (err) {
+				setError(
+					err.response?.data?.message || "Error Fetching Products from Database"
+				);
+				setLoading(false);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchProducts();
+	}, []);
+
+	if (loading) return <Loader />;
+
+	if (error) return <Alert message={error} onClose={() => setError(null)} />;
+
 	return (
-		<section className="product_section layout_padding">
-			<div className="container">
-				<div className="heading_container heading_center">
-					<h2>
-						Our <span>products</span>
-					</h2>
-				</div>
-				<div className="row">
-					{products.map((product) => (
-						<Product
-							key={product.id}
-							id={product.id}
-							title={product.title}
-							price={product.price}
-							image={product.image}
-						/>
-					))}
-				</div>
-				<div className="btn-box">
-					<a href="">View All products</a>
-				</div>
-			</div>
-		</section>
+		<div className="row">
+			{products.map((product) => (
+				<Product
+					key={product._id}
+					id={product._id}
+					title={product.name}
+					price={product.price}
+					image="/img/p3.png"
+				/>
+			))}
+		</div>
 	);
 };
 

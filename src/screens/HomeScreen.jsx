@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import ProductList from "../components/ProductList";
 import Hero from "../pages/Hero";
 import WhySection from "../pages/ShopWithUs";
@@ -8,7 +9,20 @@ const HomeScreen = () => {
 		<>
 			<Hero />
 			<WhySection />
-			<ProductList />
+			<section className="product_section layout_padding">
+				<div className="container">
+					<div className="heading_container heading_center">
+						<h2>
+							Our <span>products</span>
+						</h2>
+					</div>
+
+					<ProductList />
+					<div className="btn-box">
+						<Link to="/products">View All products</Link>
+					</div>
+				</div>
+			</section>
 			<Subscribe />
 		</>
 	);
