@@ -3,8 +3,6 @@ import { FaShoppingCart } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/img/logo.png";
 import api from "../utils/api";
-import Loader from "./Loader";
-import Alert from "./Alert";
 import useAuthStore from "../store/useAuthStore";
 
 const Header = () => {
@@ -39,7 +37,7 @@ const Header = () => {
 					position: "sticky",
 					top: 0,
 					zIndex: 1000,
-					backgroundColor: "white",
+					backgroundColor: "#ffff",
 				}}
 			>
 				<div className="container">

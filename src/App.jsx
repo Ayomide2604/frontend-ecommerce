@@ -15,8 +15,13 @@ import RegisterScreen from "../RegisterScreen";
 import Cart from "./pages/Cart";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import AccountScreen from "./screens/AccountScreen";
-import AccountHeader from "./components/AccountHeader";
-import AccountFooter from "./components/AccountFooter";
+
+import ProductTable from "./components/ProductTable";
+import CollectionTable from "./components/CollectionTable";
+import AddProductForm from "./components/AddProductForm";
+import AddCollectionForm from "./components/AddCollectionForm";
+import ProfilePage from "./pages/ProfilePage";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
 	const location = useLocation();
@@ -33,7 +38,7 @@ function App() {
 
 	return (
 		<>
-			{currentPath.startsWith("/account") ? <AccountHeader /> : <Header />}
+			{currentPath.startsWith("/account") ? "" : <Header />}
 			<Routes>
 				<Route path="/" element={<HomeScreen />} />
 				<Route path="/about" element={<AboutScreen />} />
@@ -44,9 +49,16 @@ function App() {
 				<Route path="/register" element={<RegisterScreen />} />
 				<Route path="/cart" element={<Cart />} />
 				<Route path="/checkout" element={<CheckoutScreen />} />
-				<Route path="/account" element={<AccountScreen />} />
+				<Route path="/account" element={<AccountScreen />}>
+					<Route path="products" element={<ProductTable />} />
+					<Route path="add_product" element={<AddProductForm />} />
+					<Route path="collections" element={<CollectionTable />} />
+					<Route path="add_collection" element={<AddCollectionForm />} />
+					<Route path="profile" element={<ProfilePage />} />
+					<Route path="change_password" element={<ChangePassword />} />
+				</Route>
 			</Routes>
-			{currentPath.startsWith("/account") ? <AccountFooter /> : <Footer />}
+			{currentPath.startsWith("/account") ? "" : <Footer />}
 		</>
 	);
 }

@@ -3,7 +3,6 @@ import Product from "./Product";
 import api from "./../utils/api";
 import Loader from "./Loader";
 import Alert from "./Alert";
-import productsJson from "./../data/products";
 const ProductList = () => {
 	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);

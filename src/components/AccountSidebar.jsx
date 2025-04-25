@@ -35,7 +35,7 @@ const AccountSidebar = () => {
 
 					{/* Dashboard Dropdown */}
 					<li className="dropdown">
-						<Link to="#" className="nav-link gap-2">
+						<Link to="#" className="nav-link active gap-2">
 							<CiMonitor size={25} />
 							<span>Dashboard</span>
 						</Link>
@@ -59,13 +59,21 @@ const AccountSidebar = () => {
 							}
 						>
 							<li>
-								<Link className="nav-link gap-2" href="#">
+								<Link
+									to="/account/collections"
+									className="nav-link gap-2"
+									href="#"
+								>
 									<BiCategoryAlt />
 									<span>Categories</span>
 								</Link>
 							</li>
 							<li>
-								<Link className="nav-link gap-2" href="portfolio.html">
+								<Link
+									to="/account/products"
+									className="nav-link gap-2"
+									href="portfolio.html"
+								>
 									<MdOutlineLocalGroceryStore />
 									Products
 								</Link>
@@ -115,13 +123,13 @@ const AccountSidebar = () => {
 							}
 						>
 							<li>
-								<Link className="nav-link  gap-2 " href="">
+								<Link className="nav-link  gap-2 " to="/account/profile">
 									<IoSettingsOutline />
 									<span>Profile Settings</span>
 								</Link>
 							</li>
 							<li>
-								<Link className="nav-link gap-2 " href="portfolio.html">
+								<Link className="nav-link gap-2 " to="/account/change_password">
 									<TbLockPassword />
 									<span>Change Password</span>
 								</Link>
