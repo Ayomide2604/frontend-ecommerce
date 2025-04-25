@@ -7,7 +7,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 
 import AccountSidebar from "./AccountSidebar";
 const AccountHeader = () => {
-	const [isMini, setIsMini] = useState(false);
+	const [isMini, setIsMini] = useState(true);
 
 	useEffect(() => {
 		if (isMini) {

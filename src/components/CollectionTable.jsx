@@ -4,7 +4,7 @@ import Loader from "./Loader";
 import Alert from "./Alert";
 import { Link } from "react-router-dom";
 import { IoAdd } from "react-icons/io5";
-import { FaCaretLeft, FaCaretRight, FaStore } from "react-icons/fa";
+import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 
 const CollectionTable = () => {
 	const [collections, setCollections] = useState([]);
@@ -96,12 +96,12 @@ const CollectionTable = () => {
 														<td>{collection.title}</td>
 														<td>- </td>
 														<td>
-															<a
-																href={`/collections/${collection._id}`}
+															<Link
+																to={`/account/collections/${collection._id}/edit_collection`}
 																className="btn btn-primary mr-2"
 															>
 																Edit
-															</a>
+															</Link>
 															<a
 																onClick={() => deleteCollection(collection._id)}
 																className="btn btn-danger ms-2"

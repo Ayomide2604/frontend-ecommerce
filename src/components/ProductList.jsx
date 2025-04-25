@@ -39,7 +39,11 @@ const ProductList = () => {
 					id={product._id}
 					title={product.name}
 					price={product.price}
-					image="/img/p3.png"
+					image={
+						product.image
+							? `${import.meta.env.VITE_IMAGE_URL}${product.image}`
+							: "/img/default_product.jpg"
+					}
 				/>
 			))}
 		</div>

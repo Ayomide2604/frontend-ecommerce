@@ -98,12 +98,12 @@ const ProductTable = () => {
 														<td>${product.price}</td>
 														<td>{product.collection?.title}</td>
 														<td>
-															<a
-																href={`/products/${product._id}`}
+															<Link
+																to={`/account/products/${product._id}/edit_product`}
 																className="btn btn-primary mr-2"
 															>
 																Edit
-															</a>
+															</Link>
 															<a
 																onClick={() => deleteProduct(product._id)}
 																className="btn btn-danger ms-2"

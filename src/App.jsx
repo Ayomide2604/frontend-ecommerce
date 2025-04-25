@@ -17,8 +17,10 @@ import CheckoutScreen from "./screens/CheckoutScreen";
 import AccountScreen from "./screens/AccountScreen";
 
 import ProductTable from "./components/ProductTable";
-import CollectionTable from "./components/CollectionTable";
 import AddProductForm from "./components/AddProductForm";
+import EditProductForm from "./components/EditProductForm";
+import CollectionTable from "./components/CollectionTable";
+import EditCollectionForm from "./components/EditCollectionForm";
 import AddCollectionForm from "./components/AddCollectionForm";
 import ProfilePage from "./pages/ProfilePage";
 import ChangePassword from "./pages/ChangePassword";
@@ -52,8 +54,16 @@ function App() {
 				<Route path="/account" element={<AccountScreen />}>
 					<Route path="products" element={<ProductTable />} />
 					<Route path="add_product" element={<AddProductForm />} />
+					<Route
+						path="products/:id/edit_product"
+						element={<EditProductForm />}
+					/>
 					<Route path="collections" element={<CollectionTable />} />
 					<Route path="add_collection" element={<AddCollectionForm />} />
+					<Route
+						path="collections/:id/edit_collection"
+						element={<EditCollectionForm />}
+					/>
 					<Route path="profile" element={<ProfilePage />} />
 					<Route path="change_password" element={<ChangePassword />} />
 				</Route>
