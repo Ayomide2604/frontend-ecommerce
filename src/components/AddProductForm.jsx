@@ -9,12 +9,15 @@ const AddProductForm = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [success, setSuccess] = useState(false);
+
 	const initialFormValues = {
 		name: "",
-		description: undefined,
+		description: "",
 		price: "",
 		collection: "",
+		image: null,
 	};
+
 	const [formValues, setFormValues] = useState(initialFormValues);
 
 	useEffect(() => {
@@ -23,9 +26,7 @@ const AddProductForm = () => {
 				const response = await api.get("/collections");
 				setCategories(response.data);
 			} catch (err) {
-				console.error(
-					err.response || "Error Fetching Collections from database"
-				);
+				console.error("Error Fetching Collections from database", err);
 			}
 		};
 
@@ -33,52 +34,47 @@ const AddProductForm = () => {
 	}, []);
 
 	const handleChange = (e) => {
-		setFormValues({ ...formValues, [e.target.name]: e.target.value });
+		if (e.target.name === "image") {
+			setFormValues({ ...formValues, image: e.target.files[0] });
+		} else {
+			setFormValues({ ...formValues, [e.target.name]: e.target.value });
+		}
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
+		const formData = new FormData();
+		formData.append("name", formValues.name);
+		formData.append("description", formValues.description);
+		formData.append("price", formValues.price);
+		formData.append("collection", formValues.collection);
+		formData.append("image", formValues.image);
+
 		try {
 			setLoading(true);
-			const response = await api.post("/products", formValues);
+			const response = await api.post("/products", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+			console.log(response.data);
 			setLoading(false);
 			setSuccess(true);
 			setFormValues(initialFormValues);
 			setTimeout(() => setSuccess(false), 3000);
 		} catch (error) {
-			setError("Unable to Add Product at this  time", error.response);
+			setError("Unable to Add Product at this time");
 			setLoading(false);
 			setSuccess(false);
-		} finally {
-			setLoading(false);
 		}
 	};
 
-	if (loading)
-		return (
-			<div className="main-content">
-				<section className="section">
-					<div className="section-body">
-						<Loader />
-					</div>
-				</section>
-			</div>
-		);
-
-	if (error)
-		return (
-			<div className="main-content">
-				<section className="section">
-					<div className="section-body">
-						<Alert message={error} onClose={() => setError(null)} />
-					</div>
-				</section>
-			</div>
-		);
+	if (loading) return <Loader />;
+	if (error) return <Alert message={error} onClose={() => setError(null)} />;
 
 	return (
-		<div className="main-content position-relative">
+		<div className="main-content">
 			<section
 				className={
 					success ? "section content-wrapper blur" : "section content-wrapper"
@@ -107,6 +103,7 @@ const AddProductForm = () => {
 												/>
 											</div>
 										</div>
+
 										<div className="form-group row mb-4">
 											<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
 												Price:
@@ -121,6 +118,7 @@ const AddProductForm = () => {
 												/>
 											</div>
 										</div>
+
 										<div className="form-group row mb-4">
 											<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
 												Collection:
@@ -141,6 +139,7 @@ const AddProductForm = () => {
 												</select>
 											</div>
 										</div>
+
 										<div className="form-group row mb-4">
 											<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
 												Description:
@@ -154,24 +153,23 @@ const AddProductForm = () => {
 												/>
 											</div>
 										</div>
-										{/* <div className="form-group row mb-4">
-										<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
-										Thumbnail
-										</label>
-										<div className="col-sm-12 col-md-7">
-											<div id="image-preview" className="image-preview">
-											<label htmlFor="image-upload" id="image-label">
-													Choose File
-													</label>
-													<input type="file" name="image" id="image-upload" />
-													</div>
-													</div>
-													</div> */}
 
 										<div className="form-group row mb-4">
-											<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3" />
+											<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
+												Thumbnail
+											</label>
 											<div className="col-sm-12 col-md-7">
-												<button className="btn btn-primary">Add Post</button>
+												<input
+													type="file"
+													name="image"
+													onChange={handleChange}
+												/>
+											</div>
+										</div>
+
+										<div className="form-group row mb-4">
+											<div className="col-sm-12 col-md-7">
+												<button className="btn btn-primary">Add Product</button>
 											</div>
 										</div>
 									</form>
@@ -184,18 +182,18 @@ const AddProductForm = () => {
 
 			{success && (
 				<div
-					className="main-content position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center  bg-opacity-50"
+					className="main-content position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-opacity-50"
 					style={{ height: "100vh" }}
 				>
 					<section className="section">
 						<div className="section-body">
-							<div className="col-12 col-sm-12 col-lg-12 ">
+							<div className="col-12">
 								<div className="card p-4 ">
 									<div className="card-body text-center">
 										<div className="mb-3 success-animation text-center text-success display-1">
 											<CiCircleCheck />
 										</div>
-										<h6>Collection Added Successfully</h6>
+										<h6>Product Added Successfully</h6>
 										<button
 											className="btn btn-success"
 											onClick={() => setSuccess(false)}
