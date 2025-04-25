@@ -35,7 +35,7 @@ const AccountSidebar = () => {
 
 					{/* Dashboard Dropdown */}
 					<li className="dropdown">
-						<Link to="#" className="nav-link active gap-2">
+						<Link to="/account" className="nav-link active gap-2">
 							<CiMonitor size={25} />
 							<span>Dashboard</span>
 						</Link>
@@ -122,6 +122,12 @@ const AccountSidebar = () => {
 								profileMenuopen ? "dropdown-menu show" : "dropdown-menu "
 							}
 						>
+							<li>
+								<Link className="nav-link  gap-2 " to="/account/users">
+									<CgProfile />
+									<span>Users</span>
+								</Link>
+							</li>
 							<li>
 								<Link className="nav-link  gap-2 " to="/account/profile">
 									<IoSettingsOutline />

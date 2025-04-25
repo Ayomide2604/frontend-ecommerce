@@ -19,7 +19,7 @@ const AccountScreen = () => {
 					<Outlet />
 				</div>
 			</div>
-			<AccountFooter />x
+			<AccountFooter />
 		</>
 	);
 };

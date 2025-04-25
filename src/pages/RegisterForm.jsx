@@ -1,8 +1,42 @@
 import React from "react";
 import { FaGoogle, FaFacebook, FaApple } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import useAuthStore from "./../store/useAuthStore";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 const RegisterForm = () => {
+	const navigate = useNavigate();
+	const { register, registerLoad, registerError } = useAuthStore();
+	const initialFormValues = {
+		firstName: "",
+		lastName: "",
+		username: "",
+		email: "",
+		password: "",
+	};
+
+	const [formValues, setFormValues] = useState(initialFormValues);
+
+	const handleChange = (e) => {
+		setFormValues({ ...formValues, [e.target.name]: e.target.value });
+	};
+
+	const handleRegister = async (e) => {
+		e.preventDefault();
+
+		const formData = {
+			firstName: formValues.firstName,
+			lastName: formValues.lastName,
+			username: formValues.username.toLowerCase(),
+			email: formValues.email.toLowerCase(),
+			password: formValues.password,
+		};
+
+		register(formData);
+		setFormValues(initialFormValues);
+		navigate("/login");
+	};
+
 	return (
 		<section className="py-3 py-md-5 py-xl-8">
 			<div className="container">
@@ -20,8 +54,40 @@ const RegisterForm = () => {
 					<div className="col-12 col-lg-10 col-xl-8">
 						<div className="row gy-5 justify-content-center">
 							<div className="col-12 col-lg-5">
-								<form action="#!">
+								<form onSubmit={handleRegister}>
 									<div className="row gy-3 overflow-hidden">
+										<div className="col-12">
+											<div className="form-floating mb-3">
+												<input
+													type="text"
+													className="form-control border-0 border-bottom rounded-0"
+													name="firstName"
+													id="username"
+													value={formValues.firstName}
+													onChange={handleChange}
+													required
+												/>
+												<label htmlFor="username" className="form-label">
+													FirstName
+												</label>
+											</div>
+										</div>
+										<div className="col-12">
+											<div className="form-floating mb-3">
+												<input
+													type="text"
+													className="form-control border-0 border-bottom rounded-0"
+													name="lastName"
+													value={formValues.lastName}
+													onChange={handleChange}
+													id="username"
+													required
+												/>
+												<label htmlFor="username" className="form-label">
+													LastName
+												</label>
+											</div>
+										</div>
 										<div className="col-12">
 											<div className="form-floating mb-3">
 												<input
@@ -29,6 +95,8 @@ const RegisterForm = () => {
 													className="form-control border-0 border-bottom rounded-0"
 													name="username"
 													id="username"
+													value={formValues.username}
+													onChange={handleChange}
 													required
 												/>
 												<label htmlFor="username" className="form-label">
@@ -43,6 +111,8 @@ const RegisterForm = () => {
 													className="form-control border-0 border-bottom rounded-0"
 													name="email"
 													id="email"
+													value={formValues.email}
+													onChange={handleChange}
 													required
 												/>
 												<label htmlFor="email" className="form-label">
@@ -53,9 +123,11 @@ const RegisterForm = () => {
 										<div className="col-12">
 											<div className="form-floating mb-3">
 												<input
-													type="password"
+													type="text"
 													className="form-control border-0 border-bottom rounded-0"
 													name="password"
+													value={formValues.password}
+													onChange={handleChange}
 													id="password"
 													placeholder="Password"
 													required
@@ -65,7 +137,7 @@ const RegisterForm = () => {
 												</label>
 											</div>
 										</div>
-										<div className="col-12">
+										{/* <div className="col-12">
 											<div className="form-floating mb-3">
 												<input
 													type="password"
@@ -79,7 +151,7 @@ const RegisterForm = () => {
 													Confirm Password
 												</label>
 											</div>
-										</div>
+										</div> */}
 										<div className="col-12">
 											<div className="d-grid">
 												<button

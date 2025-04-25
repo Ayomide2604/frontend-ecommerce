@@ -5,13 +5,19 @@ import { CiCircleCheck } from "react-icons/ci";
 import Loader from "./Loader";
 import Alert from "./Alert";
 import BackButton from "./BackButton";
+import useCollectionStore from "../store/useCollectionStore";
+import useProductStore from "../store/useProductStore";
 
 const AddProductForm = () => {
+	const { fetchCollections, collections } = useCollectionStore();
+	const {
+		addNewProduct,
+		addProductLoad,
+		addProductSuccess,
+		setAddProductSuccess,
+		addProductError,
+	} = useProductStore();
 	const navigate = useNavigate();
-	const [categories, setCategories] = useState([]);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(null);
-	const [success, setSuccess] = useState(false);
 
 	const initialFormValues = {
 		name: "",
@@ -24,15 +30,6 @@ const AddProductForm = () => {
 	const [formValues, setFormValues] = useState(initialFormValues);
 
 	useEffect(() => {
-		const fetchCollections = async () => {
-			try {
-				const response = await api.get("/collections");
-				setCategories(response.data);
-			} catch (err) {
-				console.error("Error Fetching Collections from database", err);
-			}
-		};
-
 		fetchCollections();
 	}, []);
 
@@ -54,29 +51,11 @@ const AddProductForm = () => {
 		formData.append("collection", formValues.collection);
 		formData.append("image", formValues.image);
 
-		try {
-			setLoading(true);
-			const response = await api.post("/products", formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			});
-			console.log(response.data);
-			setLoading(false);
-			setSuccess(true);
-			setFormValues(initialFormValues);
-			setTimeout(() => {
-				setSuccess(false);
-				navigate("/account/products");
-			}, 3000);
-		} catch (error) {
-			setError("Unable to Add Product at this time");
-			setLoading(false);
-			setSuccess(false);
-		}
+		addNewProduct(formData);
+		setFormValues(initialFormValues);
 	};
 
-	if (loading)
+	if (addProductLoad)
 		return (
 			<div className="main-content">
 				<section className="section">
@@ -87,7 +66,7 @@ const AddProductForm = () => {
 			</div>
 		);
 
-	if (error)
+	if (addProductError)
 		return (
 			<div className="main-content">
 				<section className="section">
@@ -102,7 +81,9 @@ const AddProductForm = () => {
 		<div className="main-content">
 			<section
 				className={
-					success ? "section content-wrapper blur" : "section content-wrapper"
+					addProductSuccess
+						? "section content-wrapper blur"
+						: "section content-wrapper"
 				}
 			>
 				<div className="section-body">
@@ -137,7 +118,8 @@ const AddProductForm = () => {
 											</label>
 											<div className="col-sm-12 col-md-7">
 												<input
-													type="text"
+													type="number"
+													min="1"
 													className="form-control"
 													name="price"
 													onChange={handleChange}
@@ -158,7 +140,7 @@ const AddProductForm = () => {
 													value={formValues.collection}
 												>
 													<option value="">Select A Collection</option>
-													{categories.map((collection) => (
+													{collections.map((collection) => (
 														<option key={collection._id} value={collection._id}>
 															{collection.title}
 														</option>
@@ -227,7 +209,7 @@ const AddProductForm = () => {
 				</div>
 			</section>
 
-			{success && (
+			{addProductSuccess && (
 				<div
 					className="main-content position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-opacity-50"
 					style={{ height: "100vh" }}
@@ -244,7 +226,7 @@ const AddProductForm = () => {
 										<button
 											className="btn btn-success"
 											onClick={() => {
-												setSuccess(false);
+												setAddProductSuccess(false);
 												navigate("/account/products");
 											}}
 										>

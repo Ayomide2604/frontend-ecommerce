@@ -1,60 +1,13 @@
+import ProfileCard from "../components/ProfileCard";
+import useAuthStore from "../store/useAuthStore";
 const ProfilePage = () => {
+	const { user } = useAuthStore();
 	return (
 		<div className="main-content">
 			<section className="section">
 				<div className="section-body">
 					<div className="row mt-sm-4">
-						<div className="col-12 col-md-12 col-lg-4">
-							<div className="card author-box">
-								<div className="card-body">
-									<div className="author-box-center">
-										<img
-											alt="image"
-											src="/img/client.jpg"
-											className="rounded-circle author-box-picture"
-										/>
-										<div className="clearfix"></div>
-										<div className="author-box-name">
-											<a href="#">Sarah Smith</a>
-										</div>
-									</div>
-									<div className="text-center">
-										<div className="author-box-description">
-											<p>
-												Lorem ipsum dolor sit amet, consectetur adipisicing
-												elit. Pariatur voluptatum alias molestias minus quod
-												dignissimos.
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className="card">
-								<div className="card-header">
-									<h4>Personal Details</h4>
-								</div>
-								<div className="card-body">
-									<div className="py-4">
-										<p className="clearfix">
-											<span className="float-left">Birthday</span>
-											<span className="float-right text-muted">30-05-1998</span>
-										</p>
-										<p className="clearfix">
-											<span className="float-left">Phone</span>
-											<span className="float-right text-muted">
-												(0123)123456789
-											</span>
-										</p>
-										<p className="clearfix">
-											<span className="float-left">Mail</span>
-											<span className="float-right text-muted">
-												test@example.com
-											</span>
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
+						<ProfileCard user={user} />
 						<div className="col-12 col-md-12 col-lg-8">
 							<div className="card">
 								<div className="padding-20">

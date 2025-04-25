@@ -1,4 +1,4 @@
-import ProductList from "./../components/ProductList";
+import ProductList from "../components/products/ProductList";
 const ProductScreen = () => {
 	return (
 		<>
@@ -8,7 +8,6 @@ const ProductScreen = () => {
 						<h2>
 							Our <span>products</span>
 						</h2>
-						
 					</div>
 					<ProductList />
 

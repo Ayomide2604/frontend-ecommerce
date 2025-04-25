@@ -4,9 +4,12 @@ import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/img/logo.png";
 import api from "../utils/api";
 import useAuthStore from "../store/useAuthStore";
+import useCartStore from "./../store/useCartStore";
+import useCollectionStore from "./../store/useCollectionStore";
 
 const Header = () => {
-	const [collections, setCollections] = useState([]);
+	const { totalItems, fetchCart } = useCartStore();
+	const { collections, fetchCollections } = useCollectionStore();
 	const { token, user, logout } = useAuthStore();
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [collectionMenuOpen, setCollectionMenuOpen] = useState(false);
@@ -15,20 +18,12 @@ const Header = () => {
 	const currentPath = location.pathname;
 
 	useEffect(() => {
-		const fetchCollections = async () => {
-			try {
-				const response = await api.get("/collections");
-				setCollections(response.data);
-			} catch (err) {
-				console.error(
-					err.response || "Error Fetching Collections from database"
-				);
-			}
-		};
+		if (token) fetchCart(token);
+	}, [token]);
 
+	useEffect(() => {
 		fetchCollections();
 	}, []);
-
 	return (
 		<>
 			<header
@@ -162,7 +157,9 @@ const Header = () => {
 													<Link to="/account">Profile</Link>
 												</li>
 												<li>
-													<Link onClick={logout}>Logout</Link>
+													<Link to="/login" onClick={logout}>
+														Logout
+													</Link>
 												</li>
 											</ul>
 										</li>
@@ -196,12 +193,18 @@ const Header = () => {
 									</>
 								)}
 
-								<li onClick={() => setMenuOpen(!menuOpen)}>
+								<li
+									onClick={() => setMenuOpen(!menuOpen)}
+									className="nav-item position-relative"
+								>
 									<Link
-										className="nav-link d-flex align-self-center"
+										className="nav-link d-flex justify-content-center align-items-center"
 										to="/cart"
 									>
-										<FaShoppingCart />
+										<FaShoppingCart size={20} />
+										<span className="badge bg-secondary rounded-pill position-absolute top-0 start-100 translate-middle px-2 py-1">
+											{totalItems}
+										</span>
 									</Link>
 								</li>
 							</ul>

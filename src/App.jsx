@@ -24,6 +24,7 @@ import EditCollectionForm from "./components/EditCollectionForm";
 import AddCollectionForm from "./components/AddCollectionForm";
 import ProfilePage from "./pages/ProfilePage";
 import ChangePassword from "./pages/ChangePassword";
+import UserTable from "./components/UserTable";
 
 function App() {
 	const location = useLocation();
@@ -65,6 +66,8 @@ function App() {
 						element={<EditCollectionForm />}
 					/>
 					<Route path="profile" element={<ProfilePage />} />
+					<Route path="users" element={<UserTable />} />
+
 					<Route path="change_password" element={<ChangePassword />} />
 				</Route>
 			</Routes>

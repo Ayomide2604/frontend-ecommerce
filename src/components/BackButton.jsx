@@ -6,7 +6,7 @@ const BackButton = () => {
 		navigate(-1); // Go back to the previous page
 	};
 	return (
-		<button onClick={handleBack} className="btn btn-secondary px-4 py-2">
+		<button onClick={handleBack} className="btn btn-dark px-4 py-2">
 			← Back
 		</button>
 	);
