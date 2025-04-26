@@ -7,7 +7,6 @@ import useAuthStore from "../../store/useAuthStore";
 import useProductStore from "../../store/useProductStore";
 const ProductDetail = () => {
 	const { id } = useParams();
-	const { token } = useAuthStore();
 	const { handleAddToCart } = useCartStore();
 	const { fetchProductById, productLoad, productError, product } =
 		useProductStore();
@@ -89,7 +88,7 @@ const ProductDetail = () => {
 						</div>
 						<p className="btn-box d-flex justify-content-start">
 							<Link
-								onClick={() => handleAddToCart(token, product._id, quantity)}
+								onClick={() => handleAddToCart(product._id, quantity)}
 								className=" btn btn1 rounded-4"
 							>
 								Add To Cart

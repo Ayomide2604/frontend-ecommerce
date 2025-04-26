@@ -1,23 +1,20 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import api from "../utils/api";
 import { CiCircleCheck } from "react-icons/ci";
-import Loader from "./Loader";
-import Alert from "./Alert";
-import BackButton from "./BackButton";
-import useCollectionStore from "../store/useCollectionStore";
-import useProductStore from "../store/useProductStore";
+import api from "../../../utils/api";
+import Loader from "../../Loader";
+import Alert from "../../Alert";
+import BackButton from "../../BackButton";
 
-const AddProductForm = () => {
-	const { fetchCollections, collections } = useCollectionStore();
-	const {
-		addNewProduct,
-		addProductLoad,
-		addProductSuccess,
-		setAddProductSuccess,
-		addProductError,
-	} = useProductStore();
+const EditProductForm = () => {
 	const navigate = useNavigate();
+	const { id } = useParams();
+	const [product, setProduct] = useState();
+	const [categories, setCategories] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
+	const [success, setSuccess] = useState(false);
 
 	const initialFormValues = {
 		name: "",
@@ -30,8 +27,46 @@ const AddProductForm = () => {
 	const [formValues, setFormValues] = useState(initialFormValues);
 
 	useEffect(() => {
+		const fetchCollections = async () => {
+			try {
+				const response = await api.get("/collections");
+				setCategories(response.data);
+			} catch (err) {
+				console.error("Error Fetching Collections", err);
+			}
+		};
+
 		fetchCollections();
 	}, []);
+
+	useEffect(() => {
+		const fetchProductById = async (id) => {
+			try {
+				setLoading(true);
+				const response = await api.get(`/products/${id}`);
+				setProduct(response.data);
+			} catch (err) {
+				setError(err.response?.data?.message || "An error occurred");
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchProductById(id);
+	}, [id]);
+
+	// Set form values after product is fetched
+	useEffect(() => {
+		if (product) {
+			setFormValues({
+				name: product.name || "",
+				description: product.description || "",
+				price: product.price || "",
+				collection: product.collection._id || "",
+				image: null,
+			});
+		}
+	}, [product]);
 
 	const handleChange = (e) => {
 		if (e.target.name === "image") {
@@ -49,13 +84,29 @@ const AddProductForm = () => {
 		formData.append("description", formValues.description);
 		formData.append("price", formValues.price);
 		formData.append("collection", formValues.collection);
-		formData.append("image", formValues.image);
+		if (formValues.image) {
+			formData.append("image", formValues.image);
+		}
 
-		addNewProduct(formData);
-		setFormValues(initialFormValues);
+		try {
+			setLoading(true);
+			const response = await api.put(`/products/${id}`, formData, {
+				headers: { "Content-Type": "multipart/form-data" },
+			});
+			console.log(response.data);
+			setSuccess(true);
+			setTimeout(() => {
+				setSuccess(false);
+				navigate("/account/products");
+			}, 3000);
+		} catch (error) {
+			setError("Unable to update product at this time");
+		} finally {
+			setLoading(false);
+		}
 	};
 
-	if (addProductLoad)
+	if (loading)
 		return (
 			<div className="main-content">
 				<section className="section">
@@ -66,7 +117,7 @@ const AddProductForm = () => {
 			</div>
 		);
 
-	if (addProductError)
+	if (error)
 		return (
 			<div className="main-content">
 				<section className="section">
@@ -81,18 +132,16 @@ const AddProductForm = () => {
 		<div className="main-content">
 			<section
 				className={
-					addProductSuccess
-						? "section content-wrapper blur"
-						: "section content-wrapper"
+					success ? "section content-wrapper blur" : "section content-wrapper"
 				}
 			>
 				<div className="section-body">
 					<div className="row">
-						<div className="col-12">
-							<div className="card">
+						<div className="col-12 ">
+							<div className="card p-5">
 								<div className="card-header d-flex justify-content-between ">
 									<BackButton />
-									<h4>Add New Product</h4>
+									<h4>Edit Product — ({product?.name})</h4>
 									<span></span>
 								</div>
 								<div className="card-body">
@@ -111,7 +160,7 @@ const AddProductForm = () => {
 												/>
 											</div>
 										</div>
-
+										t
 										<div className="form-group row mb-4">
 											<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
 												Price:
@@ -119,7 +168,6 @@ const AddProductForm = () => {
 											<div className="col-sm-12 col-md-7">
 												<input
 													type="number"
-													min="1"
 													className="form-control"
 													name="price"
 													onChange={handleChange}
@@ -127,7 +175,6 @@ const AddProductForm = () => {
 												/>
 											</div>
 										</div>
-
 										<div className="form-group row mb-4">
 											<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
 												Collection:
@@ -140,7 +187,7 @@ const AddProductForm = () => {
 													value={formValues.collection}
 												>
 													<option value="">Select A Collection</option>
-													{collections.map((collection) => (
+													{categories.map((collection) => (
 														<option key={collection._id} value={collection._id}>
 															{collection.title}
 														</option>
@@ -148,7 +195,6 @@ const AddProductForm = () => {
 												</select>
 											</div>
 										</div>
-
 										<div className="form-group row mb-4">
 											<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
 												Description:
@@ -162,15 +208,20 @@ const AddProductForm = () => {
 												/>
 											</div>
 										</div>
-
-										{formValues.image && (
+										{(product?.image || formValues.image) && (
 											<div className="form-group row mb-4">
 												<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
 													Current Image
 												</label>
 												<div className="col-sm-12 col-md-7">
 													<img
-														src={URL.createObjectURL(formValues.image)}
+														src={
+															formValues.image
+																? URL.createObjectURL(formValues.image)
+																: `${import.meta.env.VITE_IMAGE_URL}${
+																		product?.image
+																  }`
+														}
 														alt="Product"
 														style={{
 															width: "150px",
@@ -182,7 +233,6 @@ const AddProductForm = () => {
 												</div>
 											</div>
 										)}
-
 										<div className="form-group row mb-4">
 											<label className="col-form-label text-md-right col-12 col-md-3 col-lg-3">
 												Image
@@ -195,10 +245,11 @@ const AddProductForm = () => {
 												/>
 											</div>
 										</div>
-
 										<div className="form-group row mb-4">
 											<div className="col-sm-12 col-md-7">
-												<button className="btn btn-primary">Add Product</button>
+												<button className="btn btn-primary">
+													Save Changes
+												</button>
 											</div>
 										</div>
 									</form>
@@ -209,7 +260,7 @@ const AddProductForm = () => {
 				</div>
 			</section>
 
-			{addProductSuccess && (
+			{success && (
 				<div
 					className="main-content position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-opacity-50"
 					style={{ height: "100vh" }}
@@ -217,20 +268,20 @@ const AddProductForm = () => {
 					<section className="section">
 						<div className="section-body">
 							<div className="col-12">
-								<div className="card p-4 ">
+								<div className="card p-4">
 									<div className="card-body text-center">
 										<div className="mb-3 success-animation text-center text-success display-1">
 											<CiCircleCheck />
 										</div>
-										<h6>Product Added Successfully</h6>
+										<p>Product Updated Successfully!</p>
 										<button
-											className="btn btn-success"
+											className="btn btn-primary my-3"
 											onClick={() => {
-												setAddProductSuccess(false);
+												setSuccess(false);
 												navigate("/account/products");
 											}}
 										>
-											Okay
+											Ok
 										</button>
 									</div>
 								</div>
@@ -243,4 +294,4 @@ const AddProductForm = () => {
 	);
 };
 
-export default AddProductForm;
+export default EditProductForm;

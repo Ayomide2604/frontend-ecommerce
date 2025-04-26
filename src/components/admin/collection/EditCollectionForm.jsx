@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import api from "../utils/api";
-import { CiCircleCheck } from "react-icons/ci";
-import Loader from "./Loader";
-import Alert from "./Alert";
-import BackButton from "./BackButton";
 import { useNavigate } from "react-router-dom";
+import { CiCircleCheck } from "react-icons/ci";
+import api from "../../../utils/api";
+import Loader from "../../Loader";
+import Alert from "../../Alert";
+import BackButton from "../../BackButton";
 
 const EditCollectionForm = () => {
 	const navigate = useNavigate();

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import api from "../utils/api";
 import { CiCircleCheck } from "react-icons/ci";
-import Loader from "./Loader";
-import Alert from "./Alert";
-import BackButton from "./BackButton";
+import api from "../../../utils/api";
+import Loader from "../../Loader";
+import Alert from "../../Alert";
+import BackButton from "../../BackButton";
 
 const AddCollectionForm = () => {
 	const [loading, setLoading] = useState(false);

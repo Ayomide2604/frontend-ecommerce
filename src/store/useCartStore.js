@@ -5,12 +5,9 @@ const useCartStore = create((set, get) => ({
 	cart: null,
 	totalItems: 0,
 
-	fetchCart: async (token) => {
+	fetchCart: async () => {
 		try {
-			const response = await api.get("/cart", {
-				headers: { Authorization: `Bearer ${token}` },
-			});
-
+			const response = await api.get("/cart");
 			const cart = response.data.cart;
 			const items = response.data.items || [];
 
@@ -18,57 +15,62 @@ const useCartStore = create((set, get) => ({
 				cart: response.data,
 				totalItems: items.length,
 			});
-
 			console.log("Cart fetched:", cart);
 		} catch (error) {
 			console.error("Error fetching cart:", error.message);
 		}
 	},
 
-	handleAddToCart: async (token, productId, quantity) => {
+	handleAddToCart: async (productId, quantity) => {
 		try {
-			await api.post(
-				"/cart/add",
-				{ productId, quantity: quantity || 1 },
-				{ headers: { Authorization: `Bearer ${token}` } }
-			);
-			alert("Product Added Succesfully");
-			await get().fetchCart(token);
+			await api.post("/cart/add", { productId, quantity: quantity || 1 });
+			alert("Product Added Successfully");
+			await get().fetchCart();
 		} catch (error) {
-			console.error("Error Adding Product to cart", error);
+			console.error(
+				"Error Adding Product to cart",
+				error.response?.data || error.message
+			);
 			alert("Failed to add to cart");
 		}
 	},
 
-	handleRemoveFromCart: async (token, itemId) => {
+	handleRemoveFromCart: async (itemId) => {
 		try {
-			await api.delete(`/cart/remove/${itemId}`, {
-				headers: { Authorization: `Bearer ${token}` },
-			});
-			await get().fetchCart(token);
+			await api.delete(`/cart/remove/${itemId}`);
+			await get().fetchCart();
 		} catch (error) {
-			console.error("Failed to remove item ", error);
-			alert("failed to remove item from cart ");
+			console.error(
+				"Failed to remove item",
+				error.response?.data || error.message
+			);
+			alert("Failed to remove item from cart");
 		}
 	},
 
-	handleIncreaseQuantity: async (token, itemId) => {
+	handleIncreaseQuantity: async (itemId) => {
 		try {
 			await api.patch(`cart/item/${itemId}/increase`);
-			// alert("product quantity increased");
-			await get().fetchCart(token);
+			await get().fetchCart();
 		} catch (error) {
-			console.error("Error increading product quantity", error.message);
+			console.error(
+				"Error increasing product quantity",
+				error.response?.data || error.message
+			);
 		}
 	},
-	handleDecreaseQuantity: async (token, itemId) => {
+
+	handleDecreaseQuantity: async (itemId) => {
 		try {
 			await api.patch(`cart/item/${itemId}/decrease`);
-			// alert("product quantity decreased");
-			await get().fetchCart(token);
+			await get().fetchCart();
 		} catch (error) {
-			console.error("Error increading product quantity", error.message);
+			console.error(
+				"Error decreasing product quantity",
+				error.response?.data || error.message
+			);
 		}
 	},
 }));
+
 export default useCartStore;

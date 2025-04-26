@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/img/logo.png";
-import api from "../utils/api";
 import useAuthStore from "../store/useAuthStore";
 import useCartStore from "./../store/useCartStore";
 import useCollectionStore from "./../store/useCollectionStore";
@@ -35,8 +34,8 @@ const Header = () => {
 					backgroundColor: "#ffff",
 				}}
 			>
-				<div className="container">
-					<nav className="navbar navbar-expand-lg custom_nav-container ">
+				<div className="container ">
+					<nav className=" navbar navbar-expand-lg custom_nav-container ">
 						<Link className="navbar-brand" to="/">
 							<img width={250} src={Logo} alt="#" />
 						</Link>
@@ -154,7 +153,7 @@ const Header = () => {
 												}`}
 											>
 												<li>
-													<Link to="/account">Profile</Link>
+													<Link to="/profile">Profile</Link>
 												</li>
 												<li>
 													<Link to="/login" onClick={logout}>

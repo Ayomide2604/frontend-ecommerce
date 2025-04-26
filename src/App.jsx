@@ -3,28 +3,42 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import useScrollToTop from "./hooks/useScrollToTop";
+
+// Private, Admin Routes and Unauthorized Page
+import PrivateRoute from "./components/auth/PrivateRoute";
+import AdminRoute from "./components/auth/AdminRoute";
+import UnauthorizedPage from "./components/UnauthorizedPage";
+
+// Main site Layout
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+
+// Main Site Screens
 import HomeScreen from "./screens/HomeScreen";
 import AboutScreen from "./screens/AboutScreen";
 import ProductScreen from "./screens/ProductScreen";
-import ContactScreen from "./screens/ContactScreen";
 import ProductDetailScreen from "./screens/ProductDetailScreen";
+import ContactScreen from "./screens/ContactScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "../RegisterScreen";
 import Cart from "./pages/Cart";
 import CheckoutScreen from "./screens/CheckoutScreen";
 import AccountScreen from "./screens/AccountScreen";
 
-import ProductTable from "./components/ProductTable";
-import AddProductForm from "./components/AddProductForm";
-import EditProductForm from "./components/EditProductForm";
-import CollectionTable from "./components/CollectionTable";
-import EditCollectionForm from "./components/EditCollectionForm";
-import AddCollectionForm from "./components/AddCollectionForm";
+// Product Admin Imports
+import ProductTable from "./components/admin/product/ProductTable";
+import AddProductForm from "./components/admin/product/AddProductForm";
+import EditProductForm from "./components/admin/product/EditProductForm";
+
+// Collection Admin Imports
+import CollectionTable from "./components/admin/collection/CollectionTable";
+import EditCollectionForm from "./components/admin/collection/EditCollectionForm";
+import AddCollectionForm from "./components/admin/collection/AddCollectionForm";
+
+// User Admin Imports
+import UserTable from "./components/UserTable";
 import ProfilePage from "./pages/ProfilePage";
 import ChangePassword from "./pages/ChangePassword";
-import UserTable from "./components/UserTable";
 
 function App() {
 	const location = useLocation();
@@ -41,8 +55,9 @@ function App() {
 
 	return (
 		<>
-			{currentPath.startsWith("/account") ? "" : <Header />}
+			{currentPath.startsWith("/admin") ? "" : <Header />}
 			<Routes>
+				{/* Start Public Routes */}
 				<Route path="/" element={<HomeScreen />} />
 				<Route path="/about" element={<AboutScreen />} />
 				<Route path="/products" element={<ProductScreen />} />
@@ -50,9 +65,21 @@ function App() {
 				<Route path="/contact" element={<ContactScreen />} />
 				<Route path="/login" element={<LoginScreen />} />
 				<Route path="/register" element={<RegisterScreen />} />
-				<Route path="/cart" element={<Cart />} />
-				<Route path="/checkout" element={<CheckoutScreen />} />
-				<Route path="/account" element={<AccountScreen />}>
+				<Route path="/unauthorized" element={<UnauthorizedPage />} />
+				{/* End Public Routes */}
+
+				{/*  Start Private Routes */}
+				<Route path="/cart" element={<PrivateRoute element={Cart} />} />
+				<Route
+					path="/checkout"
+					element={<PrivateRoute element={CheckoutScreen} />}
+				/>
+
+				{/* End Private Route */}
+
+				{/*Start  Admin Routes */}
+
+				<Route path="/admin" element={<AdminRoute element={AccountScreen} />}>
 					<Route path="products" element={<ProductTable />} />
 					<Route path="add_product" element={<AddProductForm />} />
 					<Route
@@ -65,13 +92,15 @@ function App() {
 						path="collections/:id/edit_collection"
 						element={<EditCollectionForm />}
 					/>
+
 					<Route path="profile" element={<ProfilePage />} />
 					<Route path="users" element={<UserTable />} />
 
 					<Route path="change_password" element={<ChangePassword />} />
 				</Route>
+				{/* End Admin Routes */}
 			</Routes>
-			{currentPath.startsWith("/account") ? "" : <Footer />}
+			{currentPath.startsWith("/admin") ? "" : <Footer />}
 		</>
 	);
 }

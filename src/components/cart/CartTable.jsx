@@ -42,7 +42,7 @@ const CartTable = ({
 								<div className="input-group mb-3" style={{ maxWidth: 120 }}>
 									<div className="input-group-prepend">
 										<button
-											onClick={() => decreaseQuantity(token, item._id)}
+											onClick={() => decreaseQuantity(item._id)}
 											className="btn btn-outline-primary js-btn-minus"
 											type="button"
 										>
@@ -62,7 +62,7 @@ const CartTable = ({
 									/>
 									<div className="input-group-append">
 										<button
-											onClick={() => increaseQuantity(token, item._id)}
+											onClick={() => increaseQuantity(item._id)}
 											className="btn btn-outline-primary js-btn-plus"
 											type="button"
 										>
@@ -74,7 +74,7 @@ const CartTable = ({
 							<td>${item.subTotal}</td>
 							<td>
 								<Link
-									onClick={() => removeFromCart(token, item._id)}
+									onClick={() => removeFromCart(item._id)}
 									className="btn btn-primary height-auto btn-sm"
 								>
 									X

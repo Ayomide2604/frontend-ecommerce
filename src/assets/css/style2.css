@@ -3933,14 +3933,11 @@ h6 .badge {
 	padding-right: 5px;
 }
 .navbar {
-	height: 70px;
-	left: 250px;
+	
 	right: 0px;
 	position: absolute;
 	z-index: 890;
 	background-color: transparent;
-	height: 70px;
-	left: 250px;
 	right: 0;
 	position: absolute;
 	z-index: 890;

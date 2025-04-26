@@ -1,4 +1,4 @@
-const AccountFooter = () => {
+const AdminFooter = () => {
 	return (
 		<footer className="main-footer">
 			<div className="footer-left">
@@ -9,4 +9,4 @@ const AccountFooter = () => {
 	);
 };
 
-export default AccountFooter;
+export default AdminFooter;

@@ -1,15 +1,11 @@
 import { Link } from "react-router-dom";
-
+import useCartStore from "../store/useCartStore";
+import Coupon from "../components/cart/Coupon";
 const CheckoutScreen = () => {
+	const { cart } = useCartStore();
 	return (
 		<div className="container">
-			<div className="row mb-5">
-				<div className="col-md-12">
-					<div className="border p-4 rounded" role="alert">
-						Returning customer? <Link to="/login">Click here</Link> to login
-					</div>
-				</div>
-			</div>
+			<div className="row mb-5"></div>
 			<div className="row">
 				<div className="col-md-6 mb-5 mb-md-0">
 					<h2 className="h3 mb-3 text-black">Billing Details</h2>
@@ -343,35 +339,16 @@ const CheckoutScreen = () => {
 					</div>
 				</div>
 				<div className="col-md-6">
+					{/* Coupon Section */}
 					<div className="row mb-5">
 						<div className="col-md-12">
 							<h2 className="h3 mb-3 text-black">Coupon Code</h2>
 							<div className="p-3 p-lg-5 border">
-								<label htmlFor="c_code" className="text-black mb-3">
-									Enter your coupon code if you have one
-								</label>
-								<div className="input-group w-75">
-									<input
-										type="text"
-										className="form-control"
-										id="c_code"
-										placeholder="Coupon Code"
-										aria-label="Coupon Code"
-										aria-describedby="button-addon2"
-									/>
-									<div className="input-group-append">
-										<button
-											className="btn btn-primary btn-sm px-4"
-											type="button"
-											id="button-addon2"
-										>
-											Apply
-										</button>
-									</div>
-								</div>
+								<Coupon />
 							</div>
 						</div>
 					</div>
+					{/* Cart Totals Sectiono */}
 					<div className="row mb-5">
 						<div className="col-md-12">
 							<h2 className="h3 mb-3 text-black">Your Order</h2>
@@ -380,34 +357,33 @@ const CheckoutScreen = () => {
 									<thead>
 										<tr>
 											<th>Product</th>
+											<th>quantity</th>
 											<th>Total</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td>
-												Top Up T-Shirt <strong className="mx-2">x</strong> 1
-											</td>
-											<td>$250.00</td>
-										</tr>
-										<tr>
-											<td>
-												Polo Shirt <strong className="mx-2">x</strong> 1
-											</td>
-											<td>$100.00</td>
-										</tr>
+										{cart?.items?.map((item) => (
+											<tr>
+												<td>
+													{item.product.name}{" "}
+													<strong className="mx-2">x</strong> 1
+												</td>
+												<td>{item.quantity}</td>
+												<td>${item.subTotal}</td>
+											</tr>
+										))}
 										<tr>
 											<td className="text-black font-weight-bold">
 												<strong>Cart Subtotal</strong>
 											</td>
-											<td className="text-black">$350.00</td>
+											<td className="text-black">${cart?.totalPrice}</td>
 										</tr>
 										<tr>
 											<td className="text-black font-weight-bold">
 												<strong>Order Total</strong>
 											</td>
 											<td className="text-black font-weight-bold">
-												<strong>$350.00</strong>
+												<strong>${cart?.totalPrice}</strong>
 											</td>
 										</tr>
 									</tbody>

@@ -9,7 +9,7 @@ import { IoReceiptOutline, IoSettingsOutline } from "react-icons/io5";
 import { TbLockPassword } from "react-icons/tb";
 import { LuTickets } from "react-icons/lu";
 
-const AccountSidebar = () => {
+const AdminSidebar = () => {
 	const [storeMenuopen, setStoreMenuOpen] = useState(false);
 	const [profileMenuopen, setProfileMenuOpen] = useState(false);
 	const [orderMenuopen, setOrderMenuOpen] = useState(false);
@@ -35,7 +35,7 @@ const AccountSidebar = () => {
 
 					{/* Dashboard Dropdown */}
 					<li className="dropdown">
-						<Link to="/account" className="nav-link active gap-2">
+						<Link to="/admin" className="nav-link active gap-2">
 							<CiMonitor size={25} />
 							<span>Dashboard</span>
 						</Link>
@@ -60,7 +60,7 @@ const AccountSidebar = () => {
 						>
 							<li>
 								<Link
-									to="/account/collections"
+									to="/admin/collections"
 									className="nav-link gap-2"
 									href="#"
 								>
@@ -70,7 +70,7 @@ const AccountSidebar = () => {
 							</li>
 							<li>
 								<Link
-									to="/account/products"
+									to="/admin/products"
 									className="nav-link gap-2"
 									href="portfolio.html"
 								>
@@ -98,7 +98,7 @@ const AccountSidebar = () => {
 							}
 						>
 							<li>
-								<Link className="nav-link gap-2" href="#">
+								<Link className="nav-link gap-2" to="/admin/orders">
 									<LuTickets />
 									<span>All Orders</span>
 								</Link>
@@ -123,19 +123,19 @@ const AccountSidebar = () => {
 							}
 						>
 							<li>
-								<Link className="nav-link  gap-2 " to="/account/users">
+								<Link className="nav-link  gap-2 " to="/admin/users">
 									<CgProfile />
 									<span>Users</span>
 								</Link>
 							</li>
 							<li>
-								<Link className="nav-link  gap-2 " to="/account/profile">
+								<Link className="nav-link  gap-2 " to="/admin/profile">
 									<IoSettingsOutline />
 									<span>Profile Settings</span>
 								</Link>
 							</li>
 							<li>
-								<Link className="nav-link gap-2 " to="/account/change_password">
+								<Link className="nav-link gap-2 " to="/admin/change_password">
 									<TbLockPassword />
 									<span>Change Password</span>
 								</Link>
@@ -148,4 +148,4 @@ const AccountSidebar = () => {
 	);
 };
 
-export default AccountSidebar;
+export default AdminSidebar;

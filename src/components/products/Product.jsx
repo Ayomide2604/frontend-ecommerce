@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom";
-import useAuthStore from "../../store/useAuthStore";
 import useCartStore from "../../store/useCartStore";
+
 const Product = ({ id, title, price, image }) => {
-	const { token } = useAuthStore();
 	const { handleAddToCart } = useCartStore();
+
 	return (
 		<div className="col-sm-6 col-md-4 col-lg-4">
 			<div className="box">
 				<div className="option_container">
 					<div className="options">
 						<Link
-							onClick={() => handleAddToCart(token, id)}
-							className="text-decoration-none text-reset  option1"
+							onClick={() => handleAddToCart(id)}
+							className="text-decoration-none text-reset option1"
 						>
 							Add to Cart
 						</Link>
@@ -21,7 +21,7 @@ const Product = ({ id, title, price, image }) => {
 					</div>
 				</div>
 				<div className="img-box">
-					<img src={image} alt="" />
+					<img src={image} alt={title} />
 				</div>
 				<div className="detail-box">
 					<h5>{title}</h5>

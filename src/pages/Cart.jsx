@@ -31,7 +31,6 @@ const Cart = () => {
 									<div className="site-blocks-table">
 										{/* Cart Table */}
 										<CartTable
-											token={token}
 											cart={cart}
 											removeFromCart={handleRemoveFromCart}
 											increaseQuantity={handleIncreaseQuantity}

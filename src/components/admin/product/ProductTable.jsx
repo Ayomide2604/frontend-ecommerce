@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
-import api from "../utils/api";
-import Loader from "./Loader";
-import Alert from "./Alert";
 import { Link } from "react-router-dom";
 import { IoAdd } from "react-icons/io5";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 
-const CollectionTable = () => {
-	const [collections, setCollections] = useState([]);
+import api from "../../../utils/api";
+import Loader from "../../Loader";
+import Alert from "../../Alert";
+
+const ProductTable = () => {
+	const [products, setProducts] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		const fetchCollections = async () => {
+		const fetchProducts = async () => {
 			try {
-				const response = await api.get("/collections");
-				setCollections(response.data);
+				const response = await api.get("/products");
+				setProducts(response.data);
 				setLoading(true);
 			} catch (err) {
 				setError(
@@ -27,15 +28,15 @@ const CollectionTable = () => {
 			}
 		};
 
-		fetchCollections();
-	}, [collections]);
+		fetchProducts();
+	}, [products]);
 
-	const deleteCollection = async (id) => {
+	const deleteProduct = async (id) => {
 		try {
-			const response = await api.delete(`/collections/${id}`);
+			const response = await api.delete(`/products/${id}`);
 		} catch (err) {
 			console.error(
-				err.response?.data?.message || "Error Deleting Collection from Database"
+				err.response?.data?.message || "Error deleting Product from Database"
 			);
 		}
 	};
@@ -68,16 +69,16 @@ const CollectionTable = () => {
 					<div className="row">
 						<div className="col-12 col-md-12 col-lg-12">
 							<div className="m-3 d-flex justify-content-end align-items-center">
-								<Link to="/account/add_collection">
+								<Link to="/admin/add_product">
 									<button className="btn btn-primary">
 										<IoAdd size={20} />
-										<span> New Collection</span>
+										<span> New Product</span>
 									</button>
 								</Link>
 							</div>
 							<div className="card">
 								<div className="card-header">
-									<h4>All Collections </h4>
+									<h4>All Products </h4>
 								</div>
 								<div className="card-body p-0">
 									<div className="table-responsive">
@@ -86,24 +87,26 @@ const CollectionTable = () => {
 												<tr>
 													<th>#</th>
 													<th>Name</th>
-													<th>Number of Products</th>
+													<th>Price</th>
+													<th>Collection</th>
 													<th>Action</th>
 													<th>Details</th>
 												</tr>
-												{collections.map((collection, index) => (
-													<tr key={collection._id}>
+												{products.map((product, index) => (
+													<tr key={product._id}>
 														<td>{index + 1}</td>
-														<td>{collection.title}</td>
-														<td>- </td>
+														<td>{product.name}</td>
+														<td>${product.price}</td>
+														<td>{product.collection?.title}</td>
 														<td>
 															<Link
-																to={`/account/collections/${collection._id}/edit_collection`}
+																to={`/admin/products/${product._id}/edit_product`}
 																className="btn btn-primary mr-2"
 															>
 																Edit
 															</Link>
 															<a
-																onClick={() => deleteCollection(collection._id)}
+																onClick={() => deleteProduct(product._id)}
 																className="btn btn-danger ms-2"
 															>
 																Delete
@@ -111,10 +114,10 @@ const CollectionTable = () => {
 														</td>
 														<td>
 															<a
-																href={`/collections/${collection._id}`}
+																href={`/products/${product._id}`}
 																className="btn btn-primary"
 															>
-																View Collection
+																View Product
 															</a>
 														</td>
 													</tr>
@@ -141,7 +144,7 @@ const CollectionTable = () => {
 													2
 												</a>
 											</li>
-											<li className="page-item">
+											<li className="page-item ">
 												<a className="page-link" href="#">
 													3
 												</a>
@@ -163,4 +166,4 @@ const CollectionTable = () => {
 	);
 };
 
-export default CollectionTable;
+export default ProductTable;

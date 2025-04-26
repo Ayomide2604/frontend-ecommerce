@@ -33,7 +33,7 @@ const useAuthStore = create((set) => ({
 			set({ token: token, user: user, loginLoad: false });
 		} catch (error) {
 			set({ loginError: error });
-			console.error("Error logging in:", err);
+			console.error("Error logging in:", error);
 		} finally {
 			set({ loginLoad: false });
 		}
