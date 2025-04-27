@@ -4,14 +4,11 @@ import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/img/logo.png";
 import useAuthStore from "../store/useAuthStore";
 import useCartStore from "./../store/useCartStore";
-import useCollectionStore from "./../store/useCollectionStore";
 
 const Header = () => {
 	const { totalItems, fetchCart } = useCartStore();
-	const { collections, fetchCollections } = useCollectionStore();
 	const { token, user, logout } = useAuthStore();
 	const [menuOpen, setMenuOpen] = useState(false);
-	const [collectionMenuOpen, setCollectionMenuOpen] = useState(false);
 	const [accountMenuOpen, setAccountMenuOpen] = useState(false);
 	const location = useLocation();
 	const currentPath = location.pathname;
@@ -20,9 +17,6 @@ const Header = () => {
 		if (token) fetchCart(token);
 	}, [token]);
 
-	useEffect(() => {
-		fetchCollections();
-	}, []);
 	return (
 		<>
 			<header
@@ -81,33 +75,6 @@ const Header = () => {
 								</li>
 
 								<li
-									className="nav-item dropdown"
-									onMouseLeave={() => setCollectionMenuOpen(false)}
-								>
-									<a
-										className="nav-link dropdown-toggle"
-										href="#"
-										onClick={(e) => {
-											e.preventDefault();
-											setCollectionMenuOpen((prev) => !prev);
-										}}
-									>
-										Collections <span className="caret"></span>
-									</a>
-									<ul
-										className={`dropdown-menu ${
-											collectionMenuOpen ? "show" : ""
-										}`}
-									>
-										{collections.map((collection) => (
-											<li key={collection._id}>
-												<a href={`${collection.title}`}>{collection.title}</a>
-											</li>
-										))}
-									</ul>
-								</li>
-
-								<li
 									onClick={() => setMenuOpen(!menuOpen)}
 									className={
 										currentPath === "/products"
@@ -135,7 +102,7 @@ const Header = () => {
 									<>
 										<li
 											className="nav-item dropdown"
-											onMouseLeave={() => setAccountMenuOpen(false)}
+											// onMouseLeave={() => setAccountMenuOpen(false)}
 										>
 											<a
 												className="nav-link dropdown-toggle"
@@ -152,6 +119,12 @@ const Header = () => {
 													accountMenuOpen ? "show" : ""
 												}`}
 											>
+												{user.role === "admin" ? (
+													<li>
+														<Link to="/admin">Admin Panel</Link>
+													</li>
+												) : null}
+
 												<li>
 													<Link to="/profile">Profile</Link>
 												</li>
@@ -201,9 +174,11 @@ const Header = () => {
 										to="/cart"
 									>
 										<FaShoppingCart size={20} />
-										<span className="badge bg-secondary rounded-pill position-absolute top-0 start-100 translate-middle px-2 py-1">
-											{totalItems}
-										</span>
+										{token ? (
+											<span className="badge bg-secondary rounded-pill position-absolute top-0 start-100 translate-middle px-2 py-1">
+												{totalItems}
+											</span>
+										) : null}
 									</Link>
 								</li>
 							</ul>

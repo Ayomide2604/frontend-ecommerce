@@ -13,7 +13,7 @@ const HomeScreen = () => {
 				<div className="container">
 					<div className="heading_container heading_center">
 						<h2>
-							Our <span>products</span>
+							Latest <span>products</span>
 						</h2>
 					</div>
 

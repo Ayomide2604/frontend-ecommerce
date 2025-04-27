@@ -6,14 +6,10 @@ const ProductScreen = () => {
 				<div className="container">
 					<div className="heading_container heading_center">
 						<h2>
-							Our <span>products</span>
+							All <span>products</span>
 						</h2>
 					</div>
 					<ProductList />
-
-					<div className="btn-box">
-						<a href="">View All products</a>
-					</div>
 				</div>
 			</section>
 		</>

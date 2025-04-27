@@ -7,29 +7,31 @@ import api from "../../../utils/api";
 import Loader from "../../Loader";
 import Alert from "../../Alert";
 
+import useProductStore from "./../../../store/useProductStore";
+import ProductFilters from "../../products/productFilters";
+import Pagination from "../../Pagination";
+
 const ProductTable = () => {
-	const [products, setProducts] = useState([]);
-	const [loading, setLoading] = useState(true);
+	const {
+		products,
+		productsLoad,
+		productsError,
+		fetchProducts,
+		clearProductsError,
+		page,
+		setPage,
+		totalPages,
+		limit,
+		setLimit,
+		sort,
+		setSort,
+	} = useProductStore();
+
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		const fetchProducts = async () => {
-			try {
-				const response = await api.get("/products");
-				setProducts(response.data);
-				setLoading(true);
-			} catch (err) {
-				setError(
-					err.response?.data?.message || "Error Fetching Products from Database"
-				);
-				setLoading(false);
-			} finally {
-				setLoading(false);
-			}
-		};
-
 		fetchProducts();
-	}, [products]);
+	}, [page, limit, sort]);
 
 	const deleteProduct = async (id) => {
 		try {
@@ -41,7 +43,7 @@ const ProductTable = () => {
 		}
 	};
 
-	if (loading)
+	if (productsLoad)
 		return (
 			<div className="main-content">
 				<section className="section">
@@ -52,12 +54,15 @@ const ProductTable = () => {
 			</div>
 		);
 
-	if (error)
+	if (productsError)
 		return (
 			<div className="main-content">
 				<section className="section">
 					<div className="section-body">
-						<Alert message={error} onClose={() => setError(null)} />
+						<Alert
+							message={productsError}
+							onClose={() => clearProductsError(null)}
+						/>
 					</div>
 				</section>
 			</div>
@@ -77,8 +82,17 @@ const ProductTable = () => {
 								</Link>
 							</div>
 							<div className="card">
-								<div className="card-header">
+								<div className="card-header d-flex justify-content-between">
 									<h4>All Products </h4>
+
+									<span>
+										<ProductFilters
+											limit={limit}
+											setLimit={setLimit}
+											sort={sort}
+											setSort={setSort}
+										/>
+									</span>
 								</div>
 								<div className="card-body p-0">
 									<div className="table-responsive">
@@ -126,36 +140,12 @@ const ProductTable = () => {
 										</table>
 									</div>
 								</div>
-								<div className="card-footer text-right">
-									<nav className="d-inline-block">
-										<ul className="pagination mb-0">
-											<li className="page-item ">
-												<a className="page-link" href="#" tabIndex={-1}>
-													<FaCaretLeft />
-												</a>
-											</li>
-											<li className="page-item ">
-												<a className="page-link" href="#">
-													1 <span className="sr-only">(current)</span>
-												</a>
-											</li>
-											<li className="page-item active">
-												<a className="page-link" href="#">
-													2
-												</a>
-											</li>
-											<li className="page-item ">
-												<a className="page-link" href="#">
-													3
-												</a>
-											</li>
-											<li className="page-item">
-												<a className="page-link" href="#">
-													<FaCaretRight />
-												</a>
-											</li>
-										</ul>
-									</nav>
+								<div className="card-footer text-right d-flex justify-content-end align-items-center ms-2">
+									<Pagination
+										page={page}
+										setPage={setPage}
+										totalPages={totalPages}
+									/>
 								</div>
 							</div>
 						</div>

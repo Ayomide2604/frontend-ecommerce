@@ -113,7 +113,7 @@ const AdminSidebar = () => {
 							className=" nav-link has-dropdown gap-2"
 						>
 							<CgProfile size={25} />
-							<span>Profile</span>
+							<span>Users</span>
 
 							{profileMenuopen ? <FaCaretDown /> : <FaCaretRight />}
 						</Link>
@@ -126,18 +126,6 @@ const AdminSidebar = () => {
 								<Link className="nav-link  gap-2 " to="/admin/users">
 									<CgProfile />
 									<span>Users</span>
-								</Link>
-							</li>
-							<li>
-								<Link className="nav-link  gap-2 " to="/admin/profile">
-									<IoSettingsOutline />
-									<span>Profile Settings</span>
-								</Link>
-							</li>
-							<li>
-								<Link className="nav-link gap-2 " to="/admin/change_password">
-									<TbLockPassword />
-									<span>Change Password</span>
 								</Link>
 							</li>
 						</ul>

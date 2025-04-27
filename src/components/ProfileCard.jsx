@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 const ProfileCard = ({ user }) => {
 	return (
 		<div className="col-12 col-md-12 col-lg-4">

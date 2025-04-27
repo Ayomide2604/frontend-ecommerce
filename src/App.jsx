@@ -23,7 +23,10 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "../RegisterScreen";
 import Cart from "./pages/Cart";
 import CheckoutScreen from "./screens/CheckoutScreen";
-import AccountScreen from "./screens/AccountScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+
+// Admin Imports
+import AdminScreen from "./screens/AdminScreen";
 
 // Product Admin Imports
 import ProductTable from "./components/admin/product/ProductTable";
@@ -37,8 +40,6 @@ import AddCollectionForm from "./components/admin/collection/AddCollectionForm";
 
 // User Admin Imports
 import UserTable from "./components/UserTable";
-import ProfilePage from "./pages/ProfilePage";
-import ChangePassword from "./pages/ChangePassword";
 
 function App() {
 	const location = useLocation();
@@ -74,12 +75,16 @@ function App() {
 					path="/checkout"
 					element={<PrivateRoute element={CheckoutScreen} />}
 				/>
+				<Route
+					path="/profile"
+					element={<PrivateRoute element={ProfileScreen} />}
+				/>
 
 				{/* End Private Route */}
 
 				{/*Start  Admin Routes */}
 
-				<Route path="/admin" element={<AdminRoute element={AccountScreen} />}>
+				<Route path="/admin" element={<AdminRoute element={AdminScreen} />}>
 					<Route path="products" element={<ProductTable />} />
 					<Route path="add_product" element={<AddProductForm />} />
 					<Route
@@ -93,10 +98,7 @@ function App() {
 						element={<EditCollectionForm />}
 					/>
 
-					<Route path="profile" element={<ProfilePage />} />
 					<Route path="users" element={<UserTable />} />
-
-					<Route path="change_password" element={<ChangePassword />} />
 				</Route>
 				{/* End Admin Routes */}
 			</Routes>

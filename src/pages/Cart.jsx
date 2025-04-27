@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import useAuthStore from "../store/useAuthStore";
 import useCartStore from "../store/useCartStore";
 import EmptyCart from "../components/cart/EmptyCart";
@@ -27,17 +26,15 @@ const Cart = () => {
 					{cart?.items?.length > 0 ? (
 						<>
 							<div className="row mb-5">
-								<form className="col-md-12" method="post">
-									<div className="site-blocks-table">
-										{/* Cart Table */}
-										<CartTable
-											cart={cart}
-											removeFromCart={handleRemoveFromCart}
-											increaseQuantity={handleIncreaseQuantity}
-											decreaseQuantity={handleDecreaseQuantity}
-										/>
-									</div>
-								</form>
+								<div className="site-blocks-table">
+									{/* Cart Table */}
+									<CartTable
+										cart={cart}
+										removeFromCart={handleRemoveFromCart}
+										increaseQuantity={handleIncreaseQuantity}
+										decreaseQuantity={handleDecreaseQuantity}
+									/>
+								</div>
 							</div>
 							<div className="row">
 								<div className="col-md-6">
@@ -53,7 +50,7 @@ const Cart = () => {
 											</button>
 										</div>
 									</div>
-									{/* Cart Coupon  */}
+
 									<Coupon />
 								</div>
 								<div className="col-md-6 pl-5">

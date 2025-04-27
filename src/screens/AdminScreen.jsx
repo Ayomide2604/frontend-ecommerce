@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import AdminHeader from "../components/admin/layout/AdminHeader";
 import AdminFooter from "../components/admin/layout/AdminFooter";
-const AccountScreen = () => {
+const AdminScreen = () => {
 	return (
 		<>
 			<AdminHeader />
@@ -24,4 +24,4 @@ const AccountScreen = () => {
 	);
 };
 
-export default AccountScreen;
+export default AdminScreen;
