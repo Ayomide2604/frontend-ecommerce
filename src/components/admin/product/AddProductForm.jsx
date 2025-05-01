@@ -227,7 +227,7 @@ const AddProductForm = () => {
 											className="btn btn-success"
 											onClick={() => {
 												setAddProductSuccess(false);
-												navigate("/account/products");
+												navigate("/admin/products");
 											}}
 										>
 											Okay

@@ -63,16 +63,7 @@ const Cart = () => {
 													</h3>
 												</div>
 											</div>
-											{/* <div className="row mb-3">
-												<div className="col-md-6">
-													<span className="text-black">Subtotal</span>
-												</div>
-												<div className="col-md-6 text-right">
-													<strong className="text-black">
-														${cart.totalPrice}
-													</strong>
-												</div>
-											</div> */}
+
 											<div className="row mb-5">
 												<div className="col-md-6">
 													<span className="text-black">Total</span>

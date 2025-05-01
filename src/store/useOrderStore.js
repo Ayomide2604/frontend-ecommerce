@@ -14,6 +14,7 @@ const useOrderStore = create((set) => ({
 	newOrderSuccess: false,
 
 	setAddOrderSuccess: (value) => set({ addOrderSuccess: value }),
+	clearOrdersError: (value) => set({ ordersError: null }),
 
 	fetchOrders: async () => {
 		set({ ordersLoad: true });
@@ -64,7 +65,7 @@ const useOrderStore = create((set) => ({
 				addorderLoad: false,
 				addorderSuccess: false,
 				addorderError:
-					error.response?.data?.message || "Unable to Add Product at this time",
+					error.response?.data?.message || "Unable to Place Order at this time",
 			});
 		}
 	},

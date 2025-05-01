@@ -4,10 +4,11 @@ import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import useScrollToTop from "./hooks/useScrollToTop";
 
-// Private, Admin Routes and Unauthorized Page
+// Private, Admin Routes and Error Page
 import PrivateRoute from "./components/auth/PrivateRoute";
 import AdminRoute from "./components/auth/AdminRoute";
 import UnauthorizedPage from "./components/UnauthorizedPage";
+import Error404 from "./pages/Error404";
 
 // Main site Layout
 import Header from "./components/Header";
@@ -23,7 +24,6 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "../RegisterScreen";
 import Cart from "./pages/Cart";
 import CheckoutScreen from "./screens/CheckoutScreen";
-import ProfileScreen from "./screens/ProfileScreen";
 
 // Admin Imports
 import AdminScreen from "./screens/AdminScreen";
@@ -40,6 +40,9 @@ import AddCollectionForm from "./components/admin/collection/AddCollectionForm";
 
 // User Admin Imports
 import UserTable from "./components/UserTable";
+import AccountScreen from "./screens/AccountScreen";
+import ProfilePage from "./pages/ProfilePage";
+import OrderPage from "./pages/OrderPage";
 
 function App() {
 	const location = useLocation();
@@ -67,6 +70,7 @@ function App() {
 				<Route path="/login" element={<LoginScreen />} />
 				<Route path="/register" element={<RegisterScreen />} />
 				<Route path="/unauthorized" element={<UnauthorizedPage />} />
+				<Route path="*" element={<Error404 />} />
 				{/* End Public Routes */}
 
 				{/*  Start Private Routes */}
@@ -76,9 +80,12 @@ function App() {
 					element={<PrivateRoute element={CheckoutScreen} />}
 				/>
 				<Route
-					path="/profile"
-					element={<PrivateRoute element={ProfileScreen} />}
-				/>
+					path="/account"
+					element={<PrivateRoute element={AccountScreen} />}
+				>
+					<Route path="" element={<ProfilePage />} />
+					<Route path="orders" element={<OrderPage />} />
+				</Route>
 
 				{/* End Private Route */}
 

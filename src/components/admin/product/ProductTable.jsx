@@ -16,8 +16,6 @@ const ProductTable = () => {
 		products,
 		productsLoad,
 		productsError,
-		fetchProducts,
-		clearProductsError,
 		page,
 		setPage,
 		totalPages,
@@ -25,6 +23,9 @@ const ProductTable = () => {
 		setLimit,
 		sort,
 		setSort,
+		fetchProducts,
+		clearProductsError,
+		deleteProduct,
 	} = useProductStore();
 
 	const [error, setError] = useState(null);
@@ -32,16 +33,6 @@ const ProductTable = () => {
 	useEffect(() => {
 		fetchProducts();
 	}, [page, limit, sort]);
-
-	const deleteProduct = async (id) => {
-		try {
-			const response = await api.delete(`/products/${id}`);
-		} catch (err) {
-			console.error(
-				err.response?.data?.message || "Error deleting Product from Database"
-			);
-		}
-	};
 
 	if (productsLoad)
 		return (

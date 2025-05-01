@@ -126,7 +126,7 @@ const Header = () => {
 												) : null}
 
 												<li>
-													<Link to="/profile">Profile</Link>
+													<Link to="/account">Profile</Link>
 												</li>
 												<li>
 													<Link to="/login" onClick={logout}>

@@ -89,7 +89,20 @@ const useProductStore = create(
 					});
 				}
 			},
+
+			deleteProduct: async (id) => {
+				try {
+					const response = await api.delete(`/products/${id}`);
+					await get().fetchProducts();
+				} catch (err) {
+					console.error(
+						err.response?.data?.message ||
+							"Error deleting Product from Database"
+					);
+				}
+			},
 		}),
+
 		{
 			name: "product-store",
 			partialize: (state) => ({
