@@ -12,7 +12,6 @@ import "./assets/css/bootstrap.css";
 import "./assets/css/responsive.css";
 
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap.js";
 import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(

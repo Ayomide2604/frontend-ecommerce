@@ -111,6 +111,7 @@ function App() {
 			</Routes>
 			{currentPath.startsWith("/admin") ? "" : <Footer />}
 		</>
+		//
 	);
 }
 
